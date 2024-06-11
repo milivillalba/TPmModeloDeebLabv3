@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepLab Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/deeplab"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>DeepLab Demo</h1>
+        <div class="model-selection">
+            <h2>Three types of pre-trained weights are available:</h2>
+            <div class="model-options">
+                <div class="model-option">
+                    <button id="model-pascal" class="model-button">DeepLab Pascal</button>
+                </div>
+                <div class="model-option">
+                    <button id="model-cityscapes" class="model-button">DeepLab Cityscapes</button>
+                </div>
+                <div class="model-option">
+                    <button id="model-ade20k" class="model-button">DeepLab ADE20K</button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <label for="upload-image" class="upload-label">Upload an image</label>
+            <input type="file" id="upload-image" accept="image/*">
+        </div>
+        <div class="image-container">
+            <img id="input-image" src="" alt="Input Image">
+            <canvas id="output-canvas"></canvas>
+        </div>
+        <div id="status-message">Status: Waiting for image upload...</div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
