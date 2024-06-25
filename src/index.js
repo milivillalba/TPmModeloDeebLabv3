@@ -1,10 +1,10 @@
 // Obtener referencias a elementos del DOM que serán utilizados
-const statusElement = document.getElementById('status-message');
-const inputImageElement = document.getElementById('input-image');
-const outputCanvasElement = document.getElementById('output-canvas');
-const uploadImageElement = document.getElementById('upload-image');
+const statusElement = document.getElementById('status-message');//Muestra mensajes de estado al usuario
+const inputImageElement = document.getElementById('input-image');//Muestra la imagen cargada por el usuario
+const outputCanvasElement = document.getElementById('output-canvas');//Muestra el resultado de la segmentacion
+const uploadImageElement = document.getElementById('upload-image');//Permite al usuario cargar una imagen.
 
-// Crear un contenedor para la leyenda y agregar estilos
+// Crear un contenedor para la leyenda osea un contenedor que muestra las etiquetasy colores de las clases segmentadas.
 const legendContainer = document.createElement('div'); // Crear un div para la leyenda
 legendContainer.style.display = 'flex'; // Mostrar los elementos de la leyenda en línea
 legendContainer.style.flexDirection = 'column'; // Alinear los elementos en una columna
@@ -18,7 +18,8 @@ const setStatus = (message) => {
     statusElement.innerText = `Estado: ${message}`; // Actualiza el texto del elemento de estado con el mensaje proporcionado
 };
 
-// Función asíncrona para cargar el modelo de segmentación
+// Función asíncrona para cargar el modelo de segmentación()
+// Carga un modelo de segmentación específico (Pascal, Cityscapes, ADE20K) y actualiza el estado. Si la imagen ya está cargada, ejecuta la segmentación
 const loadModel = async (modelName) => {
     setStatus('Cargando modelo...'); // Mostrar mensaje de estado de carga
     model = await deeplab.load({ base: modelName, quantizationBytes: 4 }); // Cargar el modelo usando la biblioteca deeplab con la configuración especificada
@@ -38,6 +39,7 @@ document.getElementById('model-cityscapes').addEventListener('click', () => load
 document.getElementById('model-ade20k').addEventListener('click', () => loadModel('ade20k'));
 
 // Función para cargar y mostrar la imagen seleccionada
+//Carga la imagen seleccionada por el usuario y actualiza la interfaz. Si el modelo ya está cargado, ejecuta la segmentación.
 const loadImage = (event) => {
     const file = event.target.files[0]; // Obtener el archivo de imagen seleccionado
     if (!file.type.match('image.*')) { // Verificar si el archivo es una imagen
@@ -61,42 +63,57 @@ const loadImage = (event) => {
 };
 
 // Función asíncrona para ejecutar la segmentación en la imagen cargada
+//Ejecuta la segmentación en la imagen cargada utilizando el modelo seleccionado.
+// Muestra el resultado en outputCanvasElement y la leyenda de colores y etiquetas.
 const runSegmentation = async () => {
+    // Verifica si el modelo está cargado
     if (!model) {
-        setStatus('Por favor, selecciona un modelo primero.'); // Mostrar mensaje si no se ha cargado un modelo
+        // Si el modelo no está cargado, establece un mensaje de estado y termina la ejecución
+        setStatus('Por favor, selecciona un modelo primero.');
         return;
     }
-    setStatus('Ejecutando segmentación...'); // Mostrar mensaje de estado de ejecución
+    
+    // Establece un mensaje de estado indicando que la segmentación está en curso
+    setStatus('Ejecutando segmentación...');
 
     try {
+        // Crea un elemento de lienzo (canvas) para dibujar la imagen de entrada
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        const imageWidth = inputImageElement.width;
-        const imageHeight = inputImageElement.height;
-        canvas.width = imageWidth;
-        canvas.height = imageHeight;
-        ctx.drawImage(inputImageElement, 0, 0);
+        const imageWidth = inputImageElement.width;  // Obtiene el ancho de la imagen de entrada
+        const imageHeight = inputImageElement.height; // Obtiene el alto de la imagen de entrada
+        canvas.width = imageWidth;  // Establece el ancho del lienzo
+        canvas.height = imageHeight; // Establece el alto del lienzo
+        ctx.drawImage(inputImageElement, 0, 0);  // Dibuja la imagen de entrada en el lienzo
 
+        // Obtiene los datos de imagen del lienzo (la imagen de entrada)
         const imageData = ctx.getImageData(0, 0, imageWidth, imageHeight);
+        // Realiza la segmentación de la imagen usando el modelo cargado
         const { legend, segmentationMap, height, width } = await model.segment(imageData);
 
+        // Imprime en la consola las clases (leyenda) obtenidas del modelo
         console.log('Classes:', legend);
+        // Crea un nuevo objeto ImageData con el mapa de segmentación devuelto por el modelo
         const imageData2 = new ImageData(new Uint8ClampedArray(segmentationMap), width, height);
-        outputCanvasElement.width = width;
-        outputCanvasElement.height = height;
-        const ctxOutput = outputCanvasElement.getContext('2d');
-        ctxOutput.putImageData(imageData2, 0, 0);
+        outputCanvasElement.width = width;  // Establece el ancho del lienzo de salida
+        outputCanvasElement.height = height; // Establece el alto del lienzo de salida
+        const ctxOutput = outputCanvasElement.getContext('2d');  // Obtiene el contexto de dibujo del lienzo de salida
+        ctxOutput.putImageData(imageData2, 0, 0);  // Dibuja los datos de imagen segmentada en el lienzo de salida
 
-        setStatus('Segmentación completa.'); // Mostrar mensaje de segmentación completa
-        displayLegend(legend); // Mostrar la leyenda de colores
+        // Establece un mensaje de estado indicando que la segmentación está completa
+        setStatus('Segmentación completa.');
+        displayLegend(legend);  // Muestra la leyenda de colores de las clases segmentadas
 
     } catch (error) {
-        console.error('Error en la segmentación:', error); // Imprimir error en la consola para depuración
-        setStatus('Error en la segmentación. Por favor, intenta de nuevo.'); // Mostrar mensaje de error
+        // Imprime cualquier error en la consola para depuración
+        console.error('Error en la segmentación:', error);
+        // Establece un mensaje de estado indicando que ocurrió un error en la segmentación
+        setStatus('Error en la segmentación. Por favor, intenta de nuevo.');
     }
 };
 
 // Función para mostrar la leyenda de colores y etiquetas en la interfaz de usuario
+//Muestra la leyenda de colores y etiquetas en la interfaz.
 const displayLegend = (legend) => {
     legendContainer.innerHTML = ''; // Limpiar la leyenda anterior
     Object.keys(legend).forEach(label => {
@@ -122,6 +139,9 @@ const displayLegend = (legend) => {
 };
 
 // Asignar evento al elemento de subida de imagen
+
 uploadImageElement.addEventListener('change', loadImage); // Ejecutar la función loadImage cuando se seleccione un archivo
+//uploadImageElement: Ejecuta loadImage cuando el usuario selecciona un archivo de imagen.
 
 window.onload = () => loadModel('pascal');
+//window.onload: Carga el modelo Pascal por defecto cuando la página se carga

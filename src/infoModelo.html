@@ -25,27 +25,40 @@
   </nav>
   <div class="container mt-5">
     <div id="sobre-modelo">
-      <h2>Sobre el Modelo DeepLab v3</h2>
+      <h2>Descripción del repositorio.</h2>
+      <p>El modelo se extrajo del repositorio de TensorFlow.js en GitHub. Específicamente, se utilizó el modelo DeepLab v3 para segmentación de imágenes. La URL del repositorio es: https://github.com/tensorflow/tfjs-models/blob/master/deeplab/README.md</p>
+       
+     <h2>Objetivo de la Utilización del Modelo</h2>
       <p>
-        DeepLab v3 es un modelo avanzado de segmentación semántica desarrollado por Google. Utiliza una arquitectura basada en redes neuronales convolucionales profundas (CNN) para realizar segmentaciones precisas de imágenes.
+        Es realizar segmentación de imágenes, esto se basa en el proceso de subdividir una imagen digital en múltiples segmentos (conjuntos de píxeles) para simplificar o cambiar la representación de una imagen en algo más significativo y más fácil de analizar. Específicamente, este modelo está diseñado para la segmentación semántica, es decir que clasifica cada píxel de la imagen en una categoría.
       </p>
-      <p>
-        El objetivo principal de utilizar el modelo DeepLab v3 para segmentación semántica en el navegador es hacer accesible una tecnología avanzada de análisis de imágenes, mejorar la interactividad y usabilidad de aplicaciones web, automatizar tareas de visión por computadora, fomentar la innovación y permitir una fácil integración con sistemas existentes. Todo esto contribuye a crear experiencias de usuario más ricas y eficientes, tanto para consumidores como para desarrolladores.
-      </p>
+      <h2>Datos particulares del modelo:</h2>
+      <ul>
+        <li>Creadores:fue desarrollado por investigadores de Google AI.</li>
+        <li>Fecha de creación: la primera versión fue presentada en un artículo en 2016..</li>
+        <li>Versión: no está claramente indicada, pero está basada en la implementación de DeepLab v3+.</li>
+      </ul>
       <h2>¿Qué es la Segmentación Semántica?</h2>
       <p>
-        La segmentación semántica es una técnica en visión por computadora cuyo objetivo es clasificar cada píxel de una imagen en una categoría específica. Por ejemplo, en una imagen de una carretera, se pueden identificar y diferenciar los píxeles que corresponden a coches, señales de tráfico, carreteras, etc.
+       Es una técnica en visión por computadora cuyo objetivo es clasificar cada píxel de una imagen en una categoría específica. Por ejemplo, en una imagen de una carretera, se pueden identificar y diferenciar los píxeles que corresponden a coches, señales de tráfico, carreteras, etc.
       </p>
-      <h2>¿Qué es DeepLab v3?</h2>
-      <p>
-        DeepLab v3 es un modelo avanzado de segmentación semántica desarrollado por Google. Utiliza una arquitectura basada en redes neuronales convolucionales profundas (CNN) para realizar segmentaciones precisas de imágenes.
-      </p>
-      <h2>Modelos Relacionados con DeepLab v3</h2>
-      <p>Aparte de DeepLab v3, existen otros modelos relacionados que se utilizan en diferentes contextos:</p>
+      
+      <h2>¿Cómo se usa Modelo DeepLab v3?</h2>
+      <p>En el primer paso de la segmentación semántica, una imagen se alimenta a través de un modelo previamente entrenado basado en MobileNet-v2 que es una arquitectura base, conocido por su eficiencia y buen rendimiento.</p>
+      <p>Existen tres tipos de modelos pre-entrenados disponibles, cada modelo reconoce un conjunto diferente de clases de objetos en una imagen:</p>
       <ol>
-        <li><strong>DeepLab Pascal:</strong> Este modelo se especializa en la detección y segmentación de objetos en imágenes generales. Es útil para aplicaciones que requieren reconocimiento de objetos en diversas condiciones.</li>
-        <li><strong>DeepLab Cityscapes:</strong> Diseñado para la segmentación de imágenes urbanas, este modelo puede identificar elementos como vehículos, peatones y edificios en entornos urbanos. Es ideal para aplicaciones de análisis urbano y de tráfico.</li>
-        <li><strong>DeepLab ADE20K:</strong> Este modelo es capaz de segmentar imágenes con un alto nivel de detalle, identificando una amplia variedad de objetos y escenarios. Es adecuado para aplicaciones que requieren una comprensión detallada del entorno visual, como la realidad aumentada y la navegación autónoma.</li>
+        <li><strong>DeepLab Pascal:</strong> 
+          <p>Este modelo está entrenado en el conjunto de datos Pascal VOC (Visual Object Classes Challange), conocido por sus anotaciones detalladas y su enfoque en la segmentación y detección de objetos.</p>
+         <p>- Uso: es ideal para tareas de detección de objetos y segmentación semántica en un amplio rango de categorías.</p>
+   
+          </li>
+        <li><strong>DeepLab Cityscapes:</strong>
+        <p>
+          Este modelo está entrenado en el conjunto de datos Cityscapes (paisajes urbanos), diseñado específicamente para la segmentación de escenas urbanas.</p>
+          <p>- Uso: es adecuados para proyectos de visión por computadora en entornos urbanos, como vehículos autónomos y análisis de tráfico.</p></li>
+        <li><strong>DeepLab ADE20K:</strong> 
+          <p>Este modelo está entrenado en el conjunto de datos ADE20K, que incluye una amplia variedad de categorías y escenas complejas.</p>
+          <p>- Uso: es perfecto para la segmentación de escenas diversificadas y complejas, como interiores de edificios y paisajes naturales.</p></li>
       </ol>
       <h2>Ejemplo de Funcionamiento</h2>
       <p>
